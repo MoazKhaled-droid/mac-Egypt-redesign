@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>McDonald's Eat page</title>
+    <style>
+        /* --- General Variables --- */
+        :root {
+            --mc-red: #db0007;
+            --mc-yellow: #ffc72c;
+            --dark-bg: #222;
+            --light-text: #fff;
+            --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --mc-red: #DA291C;
+            --mc-yellow: #FFC72C;
+            --mc-dark: #27251F;
+            --text-gray: #555;
+            --bg-light: #f9f9f9;
+            --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'cairo';
+            background-color: #f9f9f9;
+            overflow-x: hidden;
+            text-transform: capitalize;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        .container {
+            padding-left: 15px;
+            padding-right: 15px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Small */
+        @media (min-width: 768px) {
+            .container {
+                width: 750px;
+            }
+        }
+
+        /* Medium */
+        @media (min-width: 992px) {
+            .container {
+                width: 970px;
+            }
+        }
+
+        /* Large */
+        @media (min-width: 1200px) {
+            .container {
+                width: 1170px;
+            }
+        }
+
+        header {
+            background-color: white;
+            box-shadow: 0 4px 15px rgba(163, 163, 163, 0.15);
+            position: sticky;
+            top: 0;
+            z-index: 99;
+
+        }
+
+        header .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+
+        }
+
+
+
+        header .container .logo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        header .container .logo img {
+            height: 64px;
+            width: auto;
+        }
+
+
+        header .container .menu-nav {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        header .container .menu-nav>li>a {
+            display: inline-block;
+            color: black;
+            padding: 20px;
+            font-size: 18px;
+            transition: var(--transition);
+            position: relative;
+            height: 100%;
+        }
+
+        header .container .menu-nav>li>a:hover {
+            background-color: #f8f7f7;
+        }
+
+        header .container .menu-nav>li>a::before {
+            content: "";
+            height: 5px;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-color: red;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+
+        header .container .menu-nav>li>a:hover::before {
+            transform: scaleX(1);
+        }
+
+        header .container .menu-nav .has-menu {
+            position: relative;
+        }
+
+        header .container .menu-nav .has-menu ul {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+            top: 85px;
+            right: -90px;
+            width: 200px;
+            background-color: #ededed;
+            /* padding: 10px; */
+            border-radius: 6px;
+            transition: 0.3s;
+            border-top: 3px solid red;
+        }
+
+        header .container .menu-nav .has-menu ul li {
+            cursor: pointer;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .search-box {
+            position: relative;
+            background: #f1f1f1;
+            border-radius: 50px;
+            padding: 5px 15px;
+            display: flex;
+            align-items: center;
+            width: 200px;
+            transition: 0.3s;
+        }
+
+        .search-box:focus-within {
+            background: #fff;
+            box-shadow: 0 0 0 2px var(--mc-yellow);
+            width: 240px;
+        }
+
+        .search-box input {
+            border: none;
+            background: transparent;
+            outline: none;
+            padding: 5px;
+            width: 100%;
+            font-size: 0.9rem;
+        }
+
+        .search-box .material-icons {
+            color: #888;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .search-box .material-icons img {
+            width: 20px;
+        }
+
+        .lang-btn {
+            font-weight: bold;
+            color: #333;
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: 0.2s;
+        }
+
+        .lang-btn:hover {
+            background-color: #eee;
+        }
+
+        .login-btn {
+            background-color: var(--mc-red);
+            color: #fff;
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: 0.3s;
+            box-shadow: 0 4px 10px rgba(219, 0, 7, 0.3);
+        }
+
+        .login-btn:hover {
+            background-color: #b00006;
+            transform: translateY(-2px);
+        }
+
+        /* امسح كلاس .active القديم وحط ده مكانه */
+
+        header .container .menu-nav .has-menu.active ul {
+            opacity: 1;
+            pointer-events: all;
+            top: 62px;
+            /* رفعناها شوية عشان يبقى شكلها أحلى لما تظهر */
+        }
+
+        header .container .menu-nav .has-menu ul li {
+            padding: 10px;
+            position: relative;
+            z-index: 1;
+            transition: 0.3s;
+        }
+
+        header .container .menu-nav .has-menu ul li::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 0;
+            background-color: #d3d0d0;
+            z-index: -1;
+            transition: 0.3s;
+        }
+
+        header .container .menu-nav .has-menu ul li:hover {
+            color: red;
+        }
+
+        header .container .menu-nav .has-menu ul li:nth-child(1):before {
+            border-top-left-radius: 6px;
+            border-top-right-radius: 6px;
+        }
+
+        header .container .menu-nav .has-menu ul li:last-child:before {
+            border-bottom-left-radius: 6px;
+            border-bottom-right-radius: 6px;
+        }
+
+        header .container .menu-nav .has-menu ul li:hover:before {
+            width: 100%;
+        }
+
+        @media (max-width:930px) {
+            header {
+                position: relative;
+            }
+
+            header .container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            header .container .logo {
+                font-size: medium;
+                margin: 15px;
+            }
+
+            header .container .menu-nav>li>a {
+                display: inline-block;
+                color: black;
+                padding: 15px;
+                font-size: 13px;
+                transition: var(--transition);
+                position: relative;
+            }
+
+            header .header-actions {
+                margin-bottom: 15px;
+            }
+        }
+
+        @media (max-width:451px) {
+            header .header-actions .login-btn {
+                padding: 10px 13px;
+            }
+
+            header .header-actions .search-box {
+                width: 150px;
+            }
+
+            header .header-actions .search-box:focus {
+                width: 180px;
+            }
+        }
+
+        .hero {
+            background: url(heading/indoor-photo-young-woman-eating-260nw-2601125359.webp);
+            background-size: cover;
+            /* background-position: center; */
+            height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            padding: 20px;
+            position: relative;
+            z-index: -1;
+        }
+
+        .hero::before {
+            content: "";
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-color: rgb(0 0 0 / 58%);
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-content h1 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto 30px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        main {
+            text-transform: capitalize;
+            margin-bottom: 100px;
+            margin: -50px auto 50px;
+            /* Negative margin to overlap hero */
+        }
+
+
+        main .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        main .container>div {
+            overflow: hidden;
+            border-radius: 20px;
+            border: 2px solid rgba(0, 0, 0, 0.02);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        main .container>div:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(218, 41, 28, 0.15);
+        }
+
+        main .container .box img {
+            width: 100%;
+            height: 200px;
+        }
+
+        main .container .box .links {
+            padding: 10px;
+        }
+
+        main .container .box .links h3 {
+            padding-bottom: 10px;
+            border-bottom: 2px solid #db000069;
+        }
+
+        main .container .box .links ul {
+            margin-top: 5px;
+        }
+
+        main .container .box .links ul li {
+            padding: 10px;
+            transition: 0.5s;
+            position: relative;
+            cursor: pointer;
+            transition: 0.5s;
+        }
+
+        main .container .box .links ul li::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 0;
+            height: 100%;
+            background-color: #e1e0e0;
+            transition: 0.5s;
+            z-index: -1;
+        }
+
+        main .container .box .links ul li:hover::before {
+            width: 100%;
+        }
+
+        main .container .box .links ul li:hover {
+            color: red;
+        }
+
+        main .container .box:nth-child(2) .links {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        main .container .box:nth-child(2) .links ul {
+            width: 50%;
+        }
+
+        main .container .box:nth-child(2) h3 {
+            padding: 10px;
+            margin: 0px 10px;
+            border-bottom: 2px solid #db000069;
+        }
+
+        main .container .delivery-box {
+            background-color: #c8161d;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        main .container .delivery-box .img {
+            width: 100%;
+        }
+
+        main .container .delivery-box a {
+            margin-top: 100px;
+            padding: 5px 100px;
+            border-radius: 20px;
+            background-color: var(--mc-yellow);
+            border: 2px solid var(--mc-yellow);
+            transition: 0.3s;
+        }
+
+        main .container .delivery-box a:hover {
+            border-color: white;
+            color: red;
+        }
+
+        /* footer */
+        footer {
+            background-color: var(--dark-bg);
+            color: #fff;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 40px;
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 0 30px;
+        }
+
+        .footer-section h3 {
+            color: var(--mc-yellow);
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .footer-section ul {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .footer-section ul li a {
+            color: #aaa;
+            transition: 0.3s;
+        }
+
+        .footer-section ul li a:hover {
+            color: #fff;
+            text-decoration: underline;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .social-placeholder {
+            width: 50px;
+            height: 50px;
+            background: #333;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.3s;
+        }
+
+        .social-placeholder:hover {
+            background: var(--mc-red);
+            transform: scale(1.1);
+        }
+
+        .social-placeholder img {
+            max-width: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <header id="head">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="imges/home/logo20.png"
+                        alt="McDonalds">
+                </a>
+            </div>
+            <div class="main-links">
+                <ul class="menu-nav">
+                    <li><a href="eat.html">eat</a></li>
+                    <li><a href="learn.html">learn</a></li>
+                    <li><a href="family.html">family</a></li>
+                    <li><a href="">order now</a></li>
+                    <li class="has-menu">
+                        <a href="#">other &#9662;</a>
+                        <!-- start drop-down-menu -->
+                        <ul class="drop-down-menu">
+                            <li>contact</li>
+                            <li>promotions</li>
+                            <li>birthdays</li>
+                            <li>Terms & Conditions</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="header-actions">
+                <div class="search-box">
+                    <input type="text" placeholder="Search food...">
+                    <span class="material-icons"><img src="imges/search/search-outline-svgrepo-com.svg" alt=""></span>
+                </div>
+
+                <div class="lang-btn">
+                    <span>AR</span> / <span>EN</span>
+                </div>
+
+                <a href="#" class="login-btn">Log In</a>
+            </div>
+        </div>
+    </header>
+    <div class="hero">
+        <div class="hero-content">
+            <h1>Eat</h1>
+            <p>Discover our food. Whether it’s a quick snack, or a meal we’ve got something for everyone.</p>
+        </div>
+    </div>
+    <main>
+
+        <div class="container">
+            <div class="box">
+                <img src="imges/eat imges/Promotions.jpg" alt="">
+                <div class="links">
+                    <h3>latest promotions</h3>
+                    <ul>
+                        <li>view all offers</li>
+                        <li>family bundles</li>
+                        <li>delivery offers</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="box">
+                <img src="imges/eat imges/Menu.jpg" alt="">
+                <h3>our menu</h3>
+                <div class="links">
+                    <ul>
+                        <li>full menu</li>
+                        <li>Bundle meals</li>
+                        <li>beef</li>
+                        <li>chicken</li>
+                    </ul>
+                    <ul>
+                        <li>slides</li>
+                        <li>happy meal</li>
+                        <li>desserts</li>
+                        <li>McCafe</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="delivery-box">
+                <img src="imges/eat imges/icons8-delivery-50.png" alt="">
+                <img src="imges/eat imges/Order-Now-E.png" class="img" alt="">
+                <a href="" class="btn btn-secondary">
+                    order now</a>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <ul>
+                    <li><a href="#">Customer Service</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Feedback</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Our Services</h3>
+                <ul>
+                    <li><a href="#">McDelivery</a></li>
+                    <li><a href="#">Mobile App</a></li>
+                    <li><a href="#">Birthdays</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Follow Us</h3>
+                <div class="social-icons">
+                    <a href="#" class="social-placeholder"><img src="social/facebook-svgrepo-com.svg" alt="F"></a>
+                    <a href="#" class="social-placeholder"><img src="social/instagram-svgrepo-com.svg" alt="I"></a>
+                    <a href="#" class="social-placeholder"><img src="social/youtube-svgrepo-com.svg" alt="X"></a>
+                </div>
+            </div>
+
+            <div class="copyright">
+                <p>&copy; 2025 All Rights Reserved to Moaz Khaled UI/UX Designer</p>
+            </div>
+        </div>
+    </footer>
+    <script>
+        let menuLink = document.querySelector('.has-menu > a'); // اللينك
+        let menuItem = document.querySelector('.has-menu');     // القائمة الكبيرة (الأب)
+
+        // 2. كود فتح وقفل المنيو لما تدوس على اللينك نفسه
+        menuLink.addEventListener('click', function (e) {
+            e.preventDefault(); // عشان اللينك ميعملش ريفريش
+            menuItem.classList.toggle('active');
+        });
+
+        // 3. (الجديد) كود القفل لما تدوس في أي حتة تانية في الصفحة
+        document.addEventListener('click', function (e) {
+            // بنعمل شرط: لو المكان اللي دوست عليه (e.target) مش جزء من المنيو (menuItem)
+            if (!menuItem.contains(e.target)) {
+                // يبقى أنت دوست بره، شيل الكلاس
+                menuItem.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+
+</html>
